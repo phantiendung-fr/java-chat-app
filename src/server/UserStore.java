@@ -90,4 +90,5 @@ public class UserStore {
     public boolean exists(String username) {
         return users.containsKey(username);
     }
+    
 }

@@ -54,6 +54,8 @@ public class ClientHandler extends Thread {
             handlePrivateChat(message);
         } else if (type == MessageType.GROUP_CHAT) {
             handleGroupChat(message);
+        } else if (type == MessageType.FILE) {
+            handleFile(message);
         } else {
             send(new Message(MessageType.ERROR, "SERVER", message.getSender(), "Loại tin nhắn chưa được hỗ trợ"));
         }
@@ -142,13 +144,28 @@ public class ClientHandler extends Thread {
         for (String user : userList) {
             String targetUser = user.trim();
             ClientHandler handler = serverFrame.getClient(targetUser);
-            if (handler != null) {
+            if (handler != null && handler != this) {
                 handler.send(message);
             }
         }
 
         send(message);
         serverFrame.log("[GROUP] " + message.getSender() + ": " + message.getContent());
+    }
+
+    private void handleFile(Message message) {
+        if (username == null) {
+            send(new Message(MessageType.ERROR, "SERVER", "", "Bạn chưa đăng nhập"));
+            return;
+        }
+        ClientHandler receiverHandler = serverFrame.getClient(message.getReceiver());
+        if (receiverHandler == null) {
+            send(new Message(MessageType.ERROR, "SERVER", username, "User không online"));
+            return;
+        }
+        receiverHandler.send(message);
+        send(message);
+        serverFrame.log("[FILE] " + username + " -> " + message.getReceiver() + ": " + message.getFileName());
     }
 
     public void send(Message message) {
@@ -164,7 +181,7 @@ public class ClientHandler extends Thread {
 
     private void disconnect() {
         try {
-
+            
             if (username != null) {
                 serverFrame.removeClient(username);
                 serverFrame.broadcastOnlineUsers();
@@ -180,4 +197,5 @@ public class ClientHandler extends Thread {
             e.printStackTrace();
         }
     }
+
 }

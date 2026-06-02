@@ -188,4 +188,5 @@ public class ServerFrame extends JFrame {
             logArea.setCaretPosition(logArea.getDocument().getLength());
         });
     }
+    
 }

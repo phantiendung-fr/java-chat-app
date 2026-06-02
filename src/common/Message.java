@@ -8,12 +8,20 @@ public class Message implements Serializable {
     private String sender;
     private String receiver;
     private String content;
+    private byte[] fileData;
+    private String fileName;
 
     public Message(MessageType type, String sender, String receiver, String content) {
         this.type = type;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
+    }
+
+    public Message(MessageType type, String sender, String receiver, String content, String fileName, byte[] fileData) {
+        this(type, sender, receiver, content);
+        this.fileName = fileName;
+        this.fileData = fileData;
     }
 
     public MessageType getType() {
@@ -47,5 +55,12 @@ public class Message implements Serializable {
         this.content = content;
     }
 
+    public byte[] getFileData() {
+        return fileData;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 
 }
