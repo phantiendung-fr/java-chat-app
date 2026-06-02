@@ -257,7 +257,7 @@ public class ChatFrame extends JFrame {
     }
 
     private void receiveFile(Message message) {
-        File folder = new File("downloads");
+        File folder = new File(AppPaths.getPath("downloads"));
         folder.mkdirs();
         File file = new File(folder, message.getFileName());
         try {

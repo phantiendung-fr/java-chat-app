@@ -24,7 +24,7 @@ public class ServerFrame extends JFrame {
     public ServerFrame() {
 
         onlineClients = new ConcurrentHashMap<>();
-        userStore = new UserStore("data/users.txt");
+        userStore = new UserStore(AppPaths.getPath("users.txt"));
         running = false;
 
         setTitle("Chat Server");

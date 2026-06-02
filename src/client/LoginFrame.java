@@ -18,7 +18,7 @@ public class LoginFrame extends JFrame {
     private ClientConnection connection;
     private DefaultListModel<String> serverModel;
     private JList<String> serverList;
-    private static final String SERVER_FILE = "data/servers.txt";
+    private static final String SERVER_FILE = AppPaths.getPath("servers.txt");
 
     public LoginFrame() {
         connection = new ClientConnection();
